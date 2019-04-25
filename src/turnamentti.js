@@ -204,7 +204,7 @@ class Turnamentti {
 				if (gameScores[beatenGame]) sosScore += gameScores[beatenGame]
 			})
 			sosScores[game] = sosScore
-			const floatScore = parseFloat(gameScores[game] + '.' + sosScore)
+			const floatScore = parseFloat(gameScores[game] + '.' + (sosScore / 10000))
 			sortableScores.push([game, floatScore])
 		}
 
