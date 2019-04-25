@@ -5,18 +5,24 @@ const turnamentti = require('.')
 
 const cli = meow(`
 		Usage
-			$ turnamentti <input>
+			$ turnamentti <name_of_the_tournament>
  
 		Options
-			--init, -i  Initialize with a list of games
+			--init, -i  Initialize the tournament with a list of games
+			--listGames, -l	List games in the tournament
  
 		Examples
-			$ turnamentti --init list_of_games.txt
+			$ turnamentti uwetop10 --init list_of_games.txt
+			$ turnamentti 
 `, {
 	flags: {
 		init: {
 			type: 'string',
 			alias: 'i'
+		},
+		listGames: {
+			type: 'boolean',
+			alias: 'l'
 		}
 	}
 })

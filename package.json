@@ -21,8 +21,10 @@
   },
   "homepage": "https://github.com/msaari/turnamentti#readme",
   "dependencies": {
+    "chalk": "^2.4.2",
+    "configstore": "^4.0.0",
     "meow": "^5.0.0",
-    "node-line-reader": "0.0.3"
+    "signale": "^1.4.0"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
