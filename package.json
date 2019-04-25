@@ -1,6 +1,6 @@
 {
   "name": "turnamentti",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Creates a top X list by making individual items compete against each other",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "configstore": "^4.0.0",
+    "inquirer": "^6.3.1",
     "meow": "^5.0.0",
     "signale": "^1.4.0"
   },
