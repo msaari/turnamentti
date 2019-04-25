@@ -22,19 +22,19 @@ npm install --global turnamentti
 $ turnamentti --help
 
 	Usage
-		$ turnamentti <name_of_the_tournament>
+      $ turnamentti <name_of_the_tournament>
  
-		Options
-			--init, -i  			Initialize the tournament with a list of games
-			--listGames, -l			List games in the tournament
-			--compareGames, -c		Run comparisons between games
-			--displayResults, -d	Display tournament results
+	Options
+      --init, -i  			Initialize the tournament with a list of games
+      --listGames, -l			List games in the tournament
+      --compareGames, -c		Run comparisons between games
+      --displayResults, -d	Display tournament results
 
     Examples
       $ turnamentti uwetop10 --init list_of_uwe_games.txt
       $ turnamentti --listGames uwetop10
-	  $ turnamentti --compareGames uwetop10
-	  $ turnamentti --displayResults uwetop10
+      $ turnamentti --compareGames uwetop10
+      $ turnamentti --displayResults uwetop10
 ```
 
 ## Notes
