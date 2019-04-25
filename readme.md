@@ -21,10 +21,10 @@ npm install --global turnamentti
 ```
 $ turnamentti --help
 
-	Usage
+    Usage
       $ turnamentti <name_of_the_tournament>
  
-	Options
+    Options
       --init, -i  			Initialize the tournament with a list of games
       --listGames, -l			List games in the tournament
       --compareGames, -c		Run comparisons between games
