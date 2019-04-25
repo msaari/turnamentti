@@ -1,0 +1,14 @@
+# This line is a comment
+Root
+Fields of Arle
+Spirit Island
+# Empty lines will also be skipped
+
+Shards of Infinity
+Terraforming Mars
+Die Quacksalber von Quedlinburg
+
+Klunker
+Bohnanza
+The Colonists
+Altiplano
