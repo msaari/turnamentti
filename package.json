@@ -1,0 +1,23 @@
+{
+  "name": "turnamentti",
+  "version": "0.1.0",
+  "description": "Creates a top X list by making individual items compete against each other",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msaari/turnamentti.git"
+  },
+  "author": "Mikko Saari",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/msaari/turnamentti/issues"
+  },
+  "homepage": "https://github.com/msaari/turnamentti#readme",
+  "dependencies": {
+    "meow": "^5.0.0",
+    "node-line-reader": "0.0.3"
+  }
+}
