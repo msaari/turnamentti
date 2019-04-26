@@ -227,9 +227,16 @@ class Turnamentti {
 			gamesThisGameBeat[game].map(beatenGame => {
 				if (gameScores[beatenGame]) sosScore += gameScores[beatenGame]
 			})
-			sosScores[game] = sosScore
-			const floatScore = parseFloat(gameScores[game] + '.' + (sosScore / 10000))
-			sortableScores.push([game, floatScore])
+			sosScores.push([game, sosScore])
+		}
+
+		const maxSosScore = sosScores.reduce((acc, sos) => { return Math.max(acc, sos[1]) }, 0)
+		const maxSosScoreDivider = Math.pow(10, maxSosScore.toString().length)
+
+		for (game in gameScores) {
+			var sosScoreObject = sosScores.find(score => score[0] === game)
+			sosScore = sosScoreObject[1]
+			sortableScores.push([game, parseFloat(gameScores[game] + '.' + String(sosScore / maxSosScoreDivider).replace('0.', ''))])
 		}
 
 		sortableScores.sort(function (a, b) {
