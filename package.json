@@ -24,6 +24,7 @@
     "chalk": "^2.4.2",
     "configstore": "^4.0.0",
     "inquirer": "^6.3.1",
+    "lodash": "^4.17.11",
     "meow": "^5.0.0",
     "signale": "^1.4.0"
   },
