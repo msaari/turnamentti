@@ -80,34 +80,34 @@ class Turnamentti {
 		const resultsSoFar = this._getResolvedPairings(tournamentName)
 
 		const theseBeatGame1 = resultsSoFar.reduce((beaters, currentPairing) => {
-			return currentPairing.game1 === pairing.game1 && currentPairing.result === 2
-				? beaters.concat(currentPairing.game2)
-				: currentPairing.game2 === pairing.game1 && currentPairing.result === 1
-					? beaters.concat(currentPairing.game1)
+			return currentPairing._game1 === pairing._game1 && currentPairing._result === 2
+				? beaters.concat(currentPairing._game2)
+				: currentPairing._game2 === pairing._game1 && currentPairing._result === 1
+					? beaters.concat(currentPairing._game1)
 					: beaters
 		}, [])
 
 		const game1HasBeatenThese = resultsSoFar.reduce((beaters, currentPairing) => {
-			return currentPairing.game1 === pairing.game1 && currentPairing.result === 1
-				? beaters.concat(currentPairing.game2)
-				: currentPairing.game2 === pairing.game1 && currentPairing.result === 2
-					? beaters.concat(currentPairing.game1)
+			return currentPairing._game1 === pairing._game1 && currentPairing._result === 1
+				? beaters.concat(currentPairing._game2)
+				: currentPairing._game2 === pairing._game1 && currentPairing._result === 2
+					? beaters.concat(currentPairing._game1)
 					: beaters
 		}, [])
 
 		const theseBeatGame2 = resultsSoFar.reduce((beaters, currentPairing) => {
-			return currentPairing.game1 === pairing.game2 && currentPairing.result === 2
-				? beaters.concat(currentPairing.game2)
-				: currentPairing.game2 === pairing.game2 && currentPairing.result === 1
-					? beaters.concat(currentPairing.game1)
+			return currentPairing._game1 === pairing._game2 && currentPairing._result === 2
+				? beaters.concat(currentPairing._game2)
+				: currentPairing._game2 === pairing._game2 && currentPairing._result === 1
+					? beaters.concat(currentPairing._game1)
 					: beaters
 		}, [])
 
 		const game2HasBeatenThese = resultsSoFar.reduce((beaters, currentPairing) => {
-			return currentPairing.game1 === pairing.game2 && currentPairing.result === 1
-				? beaters.concat(currentPairing.game2)
-				: currentPairing.game2 === pairing.game2 && currentPairing.result === 2
-					? beaters.concat(currentPairing.game1)
+			return currentPairing._game1 === pairing._game2 && currentPairing._result === 1
+				? beaters.concat(currentPairing._game2)
+				: currentPairing._game2 === pairing._game2 && currentPairing._result === 2
+					? beaters.concat(currentPairing._game1)
 					: beaters
 		}, [])
 
@@ -119,7 +119,7 @@ class Turnamentti {
 				? 0
 				: 2
 
-		// log(`Prediction: ${pairing.game1} strength is ${game1Strength}, ${pairing.game2} strength is ${game2Strength}`)
+		// log(`Prediction: ${pairing._game1} strength is ${game1Strength}, ${pairing._game2} strength is ${game2Strength}`)
 
 		return prediction
 	}
@@ -285,6 +285,15 @@ class Turnamentti {
 			if (retired) {
 				const retiredPairings = _.remove(unresolvedPairings, function (pairing) { return pairing._game1 === retired || pairing._game2 === retired })
 				success(`Retired ${retired}, removed ${retiredPairings.length} pairings.`)
+				const resolvedRetiredPairings = retiredPairings.map(function (pairing) {
+					pairing._result = pairing._game1 === retired
+						? 2
+						: 1
+					return pairing
+				})
+				const resolvedPairings = this._getResolvedPairings(tournamentName)
+				const newResolvedPairings = resolvedPairings.concat(resolvedRetiredPairings)
+				this._save(tournamentName, 'resolvedPairings', newResolvedPairings)
 			}
 			const resolvedPairings = this._getResolvedPairings(tournamentName)
 			resolvedPairings.push(resolvedPairing)
