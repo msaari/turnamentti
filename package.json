@@ -1,6 +1,6 @@
 {
   "name": "turnamentti",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Creates a top X list by making individual items compete against each other",
   "main": "index.js",
   "scripts": {
