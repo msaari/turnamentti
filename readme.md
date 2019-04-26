@@ -41,6 +41,8 @@ $ turnamentti --help
 
 Turnamentti runs a full round-robin tournament. For N items, that's (N^2 - N) / 2 matchups. It's a lot, but most of the time you don't have to go through the whole round-robin to get a decent set of results.
 
+Also, in order to make the round-robin shorter, you can retire items. When you see a matchup, you'll see the stats (wins/total matches) for each item. If some item is doing poorly, it's time to retire it out of the tournament. When you choose to retire an item, the other item will win the matchup and all matchups featuring the retired item will be removed from the schedule.
+
 When comparing items, once Turnamentti has enough data it will start offering predictions about which item you'll prefer. The predicted winner of the matchup will be shown in red.
 
 The final results will feature a floating point number as a score for each item. The integer part of the number is the number of victories the item has. The decimal part that is used to break ties is the total points of the items that item has beaten.
