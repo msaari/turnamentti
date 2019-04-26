@@ -5,6 +5,7 @@ const signale = require('signale')
 const { success, error, log } = signale
 const Pairing = require('./pairing')
 const inquirer = require('inquirer')
+const _ = require('lodash')
 
 signale.config({
 	displayLabel: false
@@ -138,7 +139,8 @@ class Turnamentti {
 
 	async _compareTwoGames (tournamentName, pairing) {
 		const predictedWinner = this._predictWinnerForPairing(tournamentName, pairing)
-		const matchup = pairing.getMatchup(predictedWinner)
+		const resolvedPairings = this._getResolvedPairings(tournamentName)
+		const matchup = pairing.getMatchup(predictedWinner, resolvedPairings)
 		await inquirer
 			.prompt({
 				type: 'expand',
@@ -159,16 +161,34 @@ class Turnamentti {
 					new inquirer.Separator(),
 					{
 						key: 'q',
-						name: 'Quit',
-						value: 'quit'
+						name: `Retire ${pairing.getGame1()}`,
+						value: 'r1'
+					},
+					{
+						key: 'w',
+						name: `Retire ${pairing.getGame2()}`,
+						value: 'r2'
+					},
+					new inquirer.Separator(),
+					{
+						key: 'x',
+						name: 'Exit',
+						value: 'exit'
 					}
 				]
 			})
 			.then(answer => {
-				if (answer.match === 'quit') {
+				if (answer.match === 'exit') {
 					process.exit(1)
+				} else if (answer.match === 1 || answer.match === 2) {
+					pairing.setResult(answer.match)
+				} else if (answer.match === 'r1') {
+					pairing.setResult(2)
+					pairing.retire(1)
+				} else if (answer.match === 'r2') {
+					pairing.setResult(1)
+					pairing.retire(2)
 				}
-				pairing.setResult(answer.match)
 			})
 		return pairing
 	}
@@ -180,19 +200,23 @@ class Turnamentti {
 		const gamesThisGameBeat = []
 
 		resolvedPairings.map(pairing => {
-			if (!gameScores[pairing.game1]) gameScores[pairing.game1] = 0
-			if (!gameScores[pairing.game2]) gameScores[pairing.game2] = 0
+			const game1 = pairing._game1
+			const game2 = pairing._game2
+			const result = pairing._result
 
-			if (gamesThisGameBeat[pairing.game1] === undefined) gamesThisGameBeat[pairing.game1] = []
-			if (gamesThisGameBeat[pairing.game2] === undefined) gamesThisGameBeat[pairing.game2] = []
+			if (!gameScores[game1]) gameScores[game1] = 0
+			if (!gameScores[game2]) gameScores[game2] = 0
 
-			if (pairing.result === 1) {
-				gameScores[pairing.game1] = gameScores[pairing.game1] + 1
-				gamesThisGameBeat[pairing.game1].push(pairing.game2)
+			if (gamesThisGameBeat[game1] === undefined) gamesThisGameBeat[game1] = []
+			if (gamesThisGameBeat[game2] === undefined) gamesThisGameBeat[game2] = []
+
+			if (result === 1) {
+				gameScores[game1] = gameScores[game1] + 1
+				gamesThisGameBeat[game1].push(game2)
 			}
-			if (pairing.result === 2) {
-				gameScores[pairing.game2] = gameScores[pairing.game2] + 1
-				gamesThisGameBeat[pairing.game2].push(pairing.game1)
+			if (result === 2) {
+				gameScores[game2] = gameScores[game2] + 1
+				gamesThisGameBeat[game2].push(game1)
 			}
 		})
 
@@ -232,7 +256,7 @@ class Turnamentti {
 
 	async compareGames (input) {
 		const tournamentName = this._getTournamentFromInput(input)
-		const unresolvedPairings = this._getUnresolvedPairings(tournamentName)
+		let unresolvedPairings = this._getUnresolvedPairings(tournamentName)
 		const resolvedPairings = this._getResolvedPairings(tournamentName)
 
 		var done = resolvedPairings.length
@@ -247,9 +271,14 @@ class Turnamentti {
 
 		do {
 			const pairingObject = unresolvedPairings.shift()
-			const pairing = new Pairing(pairingObject.game1, pairingObject.game2, pairingObject.result)
+			const pairing = new Pairing(pairingObject._game1, pairingObject._game2, pairingObject._result)
 			const resolvedPairing = await this._compareTwoGames(tournamentName, pairing)
 
+			const retired = resolvedPairing.isRetired()
+			if (retired) {
+				const retiredPairings = _.remove(unresolvedPairings, function (pairing) { return pairing._game1 === retired || pairing._game2 === retired })
+				success(`Retired ${retired}, removed ${retiredPairings.length} pairings.`)
+			}
 			const resolvedPairings = this._getResolvedPairings(tournamentName)
 			resolvedPairings.push(resolvedPairing)
 
